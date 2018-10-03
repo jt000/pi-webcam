@@ -1,41 +1,73 @@
 const NodeWebCam = require('node-webcam');
 
 const options = {
-  // Picture related
+    // Picture related
+    width: 1920,
+    height: 1080,
 
-  width: 1920,
+    quality: 100,
 
-  height: 1080,
+    // Delay to take shot
+    delay: 0,
 
-  quality: 100,
+    // Save shots in memory
+    saveShots: true,
 
+    // [jpeg, png] support varies
+    // Webcam.OutputTypes
+    output: 'png',
 
-  // Delay to take shot
-  delay: 0,
+    // Which camera to use
+    // Use Webcam.list() for results
+    // false for default device
+    device: false,
 
+    // [location, buffer, base64]
+    // Webcam.CallbackReturnTypes
+    callbackReturn: 'location',
 
-  // Save shots in memory
-  saveShots: true,
-
-
-  // [jpeg, png] support varies
-  // Webcam.OutputTypes
-  output: 'png',
-
-
-  // Which camera to use
-  // Use Webcam.list() for results
-  // false for default device
-  device: false,
-
-
-  // [location, buffer, base64]
-  // Webcam.CallbackReturnTypes
-  callbackReturn: 'location',
-
-
-  // Logging
-  verbose: false,
+    // Logging
+    verbose: false,
 };
 
-module.exports = NodeWebCam.create(options);
+const webcam = NodeWebCam.create(options);
+let timer = null;
+const pictures = [];
+
+async function startCaptureAsync() {
+    if (timer !== null) {
+        return;
+    }
+
+    pictures.push(await captureAsync(`fotos/pic${pictures.length}`));
+
+    timer = setInterval(async () => {
+        pictures.push(await captureAsync(`fotos/pic${pictures.length}`));
+    }, 1000);
+}
+
+function stopCaptureAsync() {
+    return new Promise((resolve, reject) => {
+        clearInterval(timer);
+    });
+}
+
+function captureAsync(name, options) {
+    return new Promise((resolve, reject) => {
+        webcam.capture(name, options, function(err, out) {
+            if (err) {
+                reject(err);
+            }
+
+            resolve(out);
+        });
+    });
+}
+
+module.exports = {
+    startCaptureAsync: startCaptureAsync,
+
+    stopCaptureAsync: stopCaptureAsync,
+
+    captureAsync: captureAsync,
+};

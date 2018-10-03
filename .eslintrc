@@ -4,18 +4,20 @@
       "google"
     ],
     "parserOptions": {
-      "ecmaVersion": 6,
+      "ecmaVersion": 8,
       "sourceType": "module",
       "ecmaFeatures": {
         "jsx": true
       }
     },
     "env": {
-      "node": true
+      "node": true,
+      "es6": true
     },
     "rules": {
       "require-jsdoc": "off",
       "no-console": "off",
-      "linebreak-style": ["error", "windows"]
+      "linebreak-style": ["error", "windows"],
+      "indent": ["error", 4]
     }
   }
