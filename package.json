@@ -21,6 +21,6 @@
     "eslint-config-google": "^0.10.0"
   },
   "dependencies": {
-    "gpio": "^0.2.10"
+    "onoff": "^3.2.2"
   }
 }
