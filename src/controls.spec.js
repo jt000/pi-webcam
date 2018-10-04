@@ -1,10 +1,34 @@
-const expect = require('chai').expect;
+const proxyquire = require('proxyquire').noCallThru();
+const sinon = require('sinon');
+const assert = require('chai').assert;
 
-describe('A suite', function() {
-    it('contains spec with an expectation', function() {
-        let result = true;
-        expect(result)
-            .to.be.a('boolean', 'expected a boolean value')
-            .and.to.equal(true, 'expected true');
+describe('controls', function() {
+    let mockGpio = null;
+    let mockGpioObj = null;
+    let sut = null;
+
+    beforeEach(function() {
+        mockGpioObj = {writeSync: sinon.spy()};
+        mockGpio = sinon.stub()
+            .withArgs(17, 'out')
+            .returns(mockGpioObj);
+
+        sut = proxyquire('./controls', {
+            './onoff-fix': {Gpio: mockGpio},
+        });
+    });
+
+    describe('setLed', function() {
+        it('"true" writes 1', function() {
+            sut.setLed(true);
+
+            assert(mockGpioObj.writeSync.calledOnceWith(1));
+        });
+
+        it('"false" writes 0', function() {
+            sut.setLed(true);
+
+            assert(mockGpioObj.writeSync.calledOnceWith(1));
+        });
     });
 });

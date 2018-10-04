@@ -1,5 +1,5 @@
-const webcam = require('./src/webcam');
-const controls = require('./src/controls');
+const webcam = require('./webcam');
+const controls = require('./controls');
 
 async function runAsync() {
     let count = 10;
