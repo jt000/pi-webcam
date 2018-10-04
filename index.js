@@ -1,12 +1,11 @@
-const Gpio = require('onoff').Gpio;
 const webcam = require('./webcam');
+const controls = require('./controls');
 
 try {
     (async function() {
-        const led = new Gpio(17, 'out');
         let count = 10;
 
-        setLed(led, true);
+        controls.setLed(true);
         await webcam.startCaptureAsync();
         console.log('Starting webcam...');
 
@@ -17,21 +16,11 @@ try {
             } else {
                 console.log('...stopping webcam');
                 await webcam.stopCaptureAsync();
-                setLed(led, false);
+                controls.setLed(false);
 
                 clearInterval(timer);
             }
         }, 1000);
-
-        function setLed(led, value) {
-            if (value) {
-                console.log('LED ON');
-                led.writeSync(1);
-            } else {
-                console.log('LED OFF');
-                led.writeSync(0);
-            }
-        }
     })();
 } catch (error) {
     console.log(`FATAL ERROR: ${error}`);
