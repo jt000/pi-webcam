@@ -53,6 +53,7 @@ async function startCaptureAsync() {
 function stopCaptureAsync() {
     return new Promise((resolve, reject) => {
         clearInterval(timer);
+        resolve(null);
     });
 }
 
