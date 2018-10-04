@@ -39,11 +39,15 @@ async function startCaptureAsync() {
         return;
     }
 
-    pictures.push(await captureAsync(`fotos/pic${pictures.length}`));
-
-    timer = setInterval(async () => {
+    try {
         pictures.push(await captureAsync(`fotos/pic${pictures.length}`));
-    }, 1000);
+
+        timer = setInterval(async () => {
+            pictures.push(await captureAsync(`fotos/pic${pictures.length}`));
+        }, 1000);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function stopCaptureAsync() {
