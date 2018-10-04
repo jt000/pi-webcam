@@ -59,7 +59,7 @@ function stopCaptureAsync() {
 function captureAsync(name, options) {
     return new Promise((resolve, reject) => {
         console.log(`capturing ${name}`);
-        webcam.capture(name, options || {}, function(err, out) {
+        webcam.capture(name, function(err, out) {
             if (err) {
                 reject(err);
             }
