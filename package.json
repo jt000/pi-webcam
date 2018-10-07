@@ -26,6 +26,7 @@
     "sinon": "^6.3.5"
   },
   "dependencies": {
+    "moment": "^2.22.2",
     "node-webcam": "^0.4.4",
     "onoff": "^3.2.2"
   }
